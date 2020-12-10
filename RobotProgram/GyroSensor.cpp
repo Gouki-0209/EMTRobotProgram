@@ -3,6 +3,8 @@
 
 MPU6050 imu(MPU6050_ADDRESS_AD0_LOW);
 
+bool mpuInterrupt = false;
+
 void GyroSensor::PinSet(){
   pinMode(SW_PIN, INPUT_PULLUP);
 }
@@ -40,7 +42,10 @@ void GyroSensor::imu_init2()
   mpuIntStatus = imu.getIntStatus();
   packetSize = imu.dmpGetFIFOPacketSize();
 }
-
+void dmpDataReady()
+{
+  mpuInterrupt = true;
+}
 void GyroSensor::imu_attachSensorOfset(int16_t XG, int16_t YG, int16_t ZG, int16_t ZA)
 {
 //  Serial.println("imu_attachSensorOfset");

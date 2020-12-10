@@ -12,12 +12,13 @@ int Threshold = 0;
 byte LineData;
 int GyroValue;
 
-void setup() {
-  
+void setup()
+{
+
   Gyro.PinSet();
-  
+
   pinMode(StartPin, INPUT_PULLUP);
-  
+
   SerialBT.begin("ESP32-EMT");
   Serial.begin(115200);
   mySerial1.begin(9600, SERIAL_8N1, 32, 33);
@@ -25,34 +26,38 @@ void setup() {
   Wire.begin();
   Wire.setClock(400000);
   EEPROM.begin(1024);
-  
+
+  void (*dmpDataReady_t)() = dmpDataReady;
   Gyro.imu_init1(); //imu_init1()とimu_init2()の間に割り込み設定が必要
   attachInterrupt(digitalPinToInterrupt(INT_PIN), dmpDataReady, RISING);
   Gyro.setDevice();
   MotorSpeed = EEPROM_load();
-//  MotorSpeed = MotorSpeedSet();
-//  LineThresholdSet();
+  //  MotorSpeed = MotorSpeedSet();
+  //  LineThresholdSet();
 }
 
-void loop() {
+void loop()
+{
   background(LineData);
   GyroValue = Gyro.Action();
   LineSerialReceive(&LineData);
-  if(digitalRead(StartPin) == HIGH){
-    if(IRSerialReceive(&IRInfo)){
-//      Serial.println(IRInfo.radius);
-      if(IRInfo.radius > 0){
+  if (digitalRead(StartPin) == HIGH)
+  {
+    if (IRSerialReceive(&IRInfo))
+    {
+      //      Serial.println(IRInfo.radius);
+      if (IRInfo.radius > 0)
+      {
         MotorSerialWrite(GyroValue, IRInfo.theta, IRInfo.radius, LineData, (int)MotorSpeed);
-      } else {
+      }
+      else
+      {
         MotorSerialWrite(GyroValue, IRInfo.theta, IRInfo.radius, LineData, 0);
       }
-    } 
-  } else {
+    }
+  }
+  else
+  {
     MotorSerialWrite(0, 0, 0, 0, 0);
   }
-}
-
-void dmpDataReady()
-{
-  Gyro.mpuInterrupt = true;
 }
