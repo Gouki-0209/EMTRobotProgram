@@ -14,6 +14,10 @@
 #define PIN_HIGH
 #define PIN_LOW
 
+#define Kp 2.0
+#define Ki 0.01
+#define Kd 0.1
+
 class _74HC252D_
 {
 private:
@@ -23,6 +27,22 @@ private:
 public:
     _74HC252D_(uint8_t PIN_SER, uint8_t PIN_SRCLK, uint8_t PIN_RCLK);
     void Send_Byte(byte pin_addr, byte pin_mode);
+}
+
+class def_func
+{
+private:
+    int PreY = 0;
+    double duty = 0;
+    double dt, preTime;
+    double P, I = 0, D, preP = 0;
+    int TH_ABS;
+
+public:
+    def_func();
+    def_func(int set_th_abs);
+    int LPF(int Data, float a);
+    int PID(double Data, double target);
 }
 
 #endif

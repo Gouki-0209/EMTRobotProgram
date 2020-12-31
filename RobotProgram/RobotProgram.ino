@@ -8,7 +8,7 @@ GyroSensor Gyro;
 IRInfo_t IRInfo;
 
 int MotorSpeed = 0;
-int Threshold = 0;
+int Threshold = 0;    
 byte LineData;
 int GyroValue;
 
