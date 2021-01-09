@@ -1,5 +1,8 @@
 #ifndef __ShareObject__
-#define __ShareObject_
+#define __ShareObject__
+
+#include "Arduino.h"
+#include <Wire.h>
 
 //  74HC252D用の定義
 #define MOTOR_1 0b10000000
@@ -11,23 +14,23 @@
 #define CS_2 0b00000010
 #define CS_3 0b00000001
 
-#define PIN_HIGH
-#define PIN_LOW
+#define PIN_HIGH 0x01
+#define PIN_LOW 0x02
 
-#define Kp 2.0
+#define Kp 1.8
 #define Ki 0.01
 #define Kd 0.1
 
-class _74HC252D_
+class ShiftRegister
 {
 private:
-    uint8_t SER, SRLCK, RCLK;
+    uint8_t SER, SRCLK, RCLK;
     byte send_addr;
 
 public:
-    _74HC252D_(uint8_t PIN_SER, uint8_t PIN_SRCLK, uint8_t PIN_RCLK);
+    ShiftRegister(uint8_t PIN_SER, uint8_t PIN_SRCLK, uint8_t PIN_RCLK);
     void Send_Byte(byte pin_addr, byte pin_mode);
-}
+};
 
 class def_func
 {
@@ -41,8 +44,8 @@ private:
 public:
     def_func();
     def_func(int set_th_abs);
-    int LPF(int Data, float a);
+    float LPF(float Data, float a);
     int PID(double Data, double target);
-}
+};
 
 #endif

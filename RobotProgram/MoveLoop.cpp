@@ -1,5 +1,6 @@
 #include "MoveLoop.h"
 #include "LineSensor.h"
+#include "GyroSensor.h"
 
 extern HardwareSerial mySerial1;
 extern HardwareSerial mySerial2;

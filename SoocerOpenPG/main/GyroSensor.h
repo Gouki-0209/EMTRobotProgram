@@ -1,7 +1,10 @@
 #ifndef __GYROSENSOR__
 #define __GYROSENSOR__
 
-#define SW_PIN 26
+#include "ShareObject.h"
+
+#define SW_PIN 35
+#define INT_PIN 15
 
 class GyroSensor
 {
@@ -10,7 +13,7 @@ private:
     uint16_t fifoCount;
     uint8_t fifoBuffer[1024];
     float raw_ypr[3], offset_ypr[3], ypr[3];
-
+    uint8_t mpuIntStatus;
 public:
     void PinSet();
     void setDevice();
@@ -20,4 +23,5 @@ public:
     void attachOffset();
     void upload();
 };
+void dmpDataReady();
 #endif

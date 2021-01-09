@@ -1,22 +1,22 @@
 #include "ShareObject.h"
-_74HC252D_::_74HC252D_(uint8_t PIN_SER, uint8_t PIN_SRCLK, uint8_t PIN_RCLK)
+ShiftRegister::ShiftRegister(uint8_t PIN_SER, uint8_t PIN_SRCLK, uint8_t PIN_RCLK)
 {
     pinMode(SER = PIN_SER, OUTPUT);
     pinMode(SRCLK = PIN_SRCLK, OUTPUT);
     pinMode(RCLK = PIN_RCLK, OUTPUT);
 }
-void _74HC252D_::Send_Byte(byte pin_addr, byte pin_mode)
+void ShiftRegister::Send_Byte(byte pin_addr, byte pin_mode)
 {
-    if (pin_mode == PIN_HIGH)
+    if (pin_mode == 0x01)
     {
-        send_addr |= pin_addr
+        send_addr |= pin_addr;
     }
-    else if (pin_mode == PIN_LOW)
+    else if (pin_mode == 0x02)
     {
-        send_addr &= ~pin_addr
+        send_addr &= ~pin_addr;
     }
 
-    digitalWrite(RCLK LOW);
+    digitalWrite(RCLK, LOW);
     shiftOut(SER, SRCLK, MSBFIRST, send_addr);
     digitalWrite(RCLK, HIGH);
 }
@@ -28,10 +28,10 @@ def_func::def_func(int set_th_abs)
 {
     TH_ABS = set_th_abs;
 }
-int def_func::LPF(int Data, float a)
+float def_func::LPF(float Data, float a)
 {
-    int Y;
-    Y = a * PreY + (1 - a) * Data;
+    float Y;
+    Y = a * PreY + (1.0 - a) * Data;
     PreY = Y;
     return Y;
 }
