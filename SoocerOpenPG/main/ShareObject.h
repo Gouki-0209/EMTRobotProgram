@@ -17,9 +17,9 @@
 #define PIN_HIGH 0x01
 #define PIN_LOW 0x02
 
-#define Kp 1.8
-#define Ki 0.01
-#define Kd 0.1
+#define Kp 1.7
+#define Ki 0
+#define Kd 0
 
 class ShiftRegister
 {

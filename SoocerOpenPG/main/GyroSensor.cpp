@@ -38,7 +38,8 @@ void dmpDataReady()
 int PreData = 0;
 int GyroSensor::getGyroValue()
 {
-  def_func Gyro;
+//  def_func Gyro;
+    int sendData = 0;
     int GyroValue = 0;
     upload(); // ypr[]の内部情報が最新のデータに更新されます
     if (digitalRead(SW_PIN) == HIGH)
@@ -50,12 +51,14 @@ int GyroSensor::getGyroValue()
     {
         GyroValue = GyroValue - 255;
     }
-    GyroValue = Gyro.LPF(GyroValue, 0.7);
-    if(abs(PreData-GyroValue) > 5){
-      GyroValue = PreData;
+//    GyroValue = Gyro.LPF(GyroValue, 0.9);
+    if(abs(PreData-GyroValue) > 25){
+      sendData = PreData;
+    } else {
+      sendData = GyroValue;
     }
-    PreData = GyroValue;
-    return -GyroValue;
+    PreData = sendData;
+    return -sendData;
 }
 
 void GyroSensor::imu_attachSensorOffset(int16_t XG, int16_t YG, int16_t ZG, int16_t ZA)
