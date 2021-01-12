@@ -13,22 +13,22 @@ void Motor_spin(MotorPins &pin, int speed)
 {
     if (speed <= 0)
     {
-        digitalWrite(pin.InAB, HIGH);
+        digitalWrite(pin.InAB, LOW);
     }
     else
     {
-        digitalWrite(pin.InAB, LOW);
+        digitalWrite(pin.InAB, HIGH);
     }
     ledcWrite(pin.Channel, constrain(abs(speed), 0, 255));
 }
 
-void Kicker::set_pin_mode(uint8_t signal_pin)
+void set_Kicker_pin(uint8_t signal_pin)
 {
-    pinMode(Sig_Pin = signal_pin, OUTPUT);
+    pinMode(signal_pin, OUTPUT);
 }
-void Kicker::output()
+void Kick(uint8_t signal_pin)
 {
-    digitalWrite(Sig_Pin, HIGH);
+    digitalWrite(signal_pin, HIGH);
     delay(10);
-    digitalWrite(Sig_Pin, LOW);
+    digitalWrite(signal_pin, LOW);
 }

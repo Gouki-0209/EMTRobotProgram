@@ -5,8 +5,6 @@ MPU6050 imu(MPU6050_ADDRESS_AD0_LOW);
 Quaternion _quaternion;
 VectorFloat _gravity;
 
-
-
 bool mpuInterrupt = false;
 
 void GyroSensor::setDevice()
@@ -35,24 +33,40 @@ void dmpDataReady()
 {
   mpuInterrupt = true;
 }
+//int Pre_Buff[3] = {};
+//int count = 0;
+
+//void swap (int *x, int *y) {
+//  int temp;    // 値を一時保存する変数
+//
+//  temp = *x;
+//  *x = *y;
+//  *y = temp;
+//}
+//void bubble_sort (int array[], int array_size) {
+//  int i, j;
+//
+//  for (i = 0; i < array_size - 1; i++){
+//    for (j = array_size - 1; j >= i + 1; j--){   //　右から左に操作
+//      if (array[j] < array[j-1]) { swap(&array[j], &array[j-1]); }
+//    }
+//  }
+//}
+//}
 int PreData = 0;
 int GyroSensor::getGyroValue()
 {
-//  def_func Gyro;
-    int sendData = 0;
+    def_func Gyro;
     int GyroValue = 0;
+    int sendData = 0;
     upload(); // ypr[]の内部情報が最新のデータに更新されます
     if (digitalRead(SW_PIN) == HIGH)
     {
         attachOffset();
     }
-    GyroValue = (uint8_t)(ypr[0] / PI * 128.0);
-    if (GyroValue > 127)
-    {
-        GyroValue = GyroValue - 255;
-    }
-//    GyroValue = Gyro.LPF(GyroValue, 0.9);
-    if(abs(PreData-GyroValue) > 25){
+    GyroValue = (int8_t)(ypr[0] / PI * 128.0);
+    
+   if(abs(PreData-GyroValue) > 25){
       sendData = PreData;
     } else {
       sendData = GyroValue;

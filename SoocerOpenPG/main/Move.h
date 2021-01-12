@@ -4,6 +4,6 @@
 #include "ShareObject.h"
 #include "Actuator.h"
 
-void move_func(MotorPins Motor[], int GyroAngle, int Speed);
+void move_func(MotorPins Motor[], int GyroAngle, int Speed, bool kick_flag);
 
 #endif
